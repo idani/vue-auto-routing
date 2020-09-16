@@ -35,6 +35,38 @@ export default new Router({
 })
 ```
 
+When you use [`vue-router-layout`](https://github.com/ktsn/vue-router-layout) together. Do the following.
+
+```js
+import Vue from 'vue'
+import Router from 'vue-router'
+
+// Import generated routes
+import routes from 'vue-auto-routing'
+import { createRouterLayout } from 'vue-router-layout'
+
+Vue.use(Router)
+
+// Create <RouterLayout> component.
+const RouterLayout = createRouterLayout(layout => {
+  return import('@/layouts/' + layout + '.vue')
+})
+
+export default new Router({
+  routes: [
+    {
+      path: '/',
+      // Pass <RouterLayout> as the route component
+      component: RouterLayout,
+      // Pass the generated routes into the routes option
+      children: routes
+    }
+  ]
+})
+```
+
+
+
 You also need to add a webpack plugin vue-auto-routing provides. The plugin options are the same as [vue-route-generator options](https://github.com/ktsn/vue-route-generator#references)
 
 ```js
